@@ -3,13 +3,14 @@ const fs = require('fs');
 const request = require('request');
 // const { nhlRosters } = require('../consts/nhl-rosters');
 // const { nflRosters } = require('../consts/nfl-rosters');
-const { nbaRosters } = require('../consts/nba-rosters');
+// const { nbaRosters } = require('../consts/nba-rosters');
+const { mlbRosters } = require('../consts/mlb-rosters');
 
-const league = 'NBA'; // 'NHL', 'NFL', 'NBA'
+const league = 'MLB'; // 'MLB', 'NHL', 'NFL', 'NBA'
 
 (async () => {
   const browser = await puppeteer.launch({ headless: true });
-  for (const roster of nbaRosters) {
+  for (const roster of mlbRosters) {
     // eslint-disable-next-line no-console
     console.log(`Generarting: ${roster.team}`);
     const page = await browser.newPage();
