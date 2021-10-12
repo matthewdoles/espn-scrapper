@@ -13,40 +13,36 @@ const { nhlRosters } = require('../consts/nhl-rosters');
     // Scrpae player names
     const playerNameScrape = await page.$$eval(
       '.Table__TBODY .Table__TR .Table__TD div a',
-      (els) => els.map((el) => el.textContent)
+      (els) => els.map((el) => el.textContent),
     );
     const palyerNames = playerNameScrape.filter((name) => name.length > 0);
 
     // Scrpae player images
     const playerImages = await page.$$eval(
       '.TableHeadshot figure .Image__Wrapper img',
-      (imgs) => imgs.map((img) => img.getAttribute('src'))
+      (imgs) => imgs.map((img) => img.getAttribute('src')),
     );
 
     // Compile player image info (filename and uri)
     const playerImageInfo = [];
-    playerImages.forEach((link, index) =>
+    playerImages.forEach((link, index) => {
       playerImageInfo.push({
         fileName: palyerNames[index].split(' ').join('-'),
         uri: link
           .replace('&h=80&w=110&scale=crop', '&w=350&h=254')
           .replace('&w=110&h=80&scale=crop', '&w=350&h=254'),
-      })
-    );
+      });
+    });
 
     // Download player images
-    playerImageInfo.map((player) => {
-      try {
-        request(player.uri).pipe(
-          fs.createWriteStream(
-            `../images/NHL/${roster.team.split(' ').join('-')}/${
-              player.fileName
-            }.png`
-          )
-        );
-      } catch (err) {
-        console.log(err);
-      }
+    playerImageInfo.forEach((player) => {
+      request(player.uri).pipe(
+        fs.createWriteStream(
+          `../images/NHL/${roster.team.split(' ').join('-')}/${
+            player.fileName
+          }.png`,
+        ),
+      );
     });
   });
 })();
