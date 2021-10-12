@@ -1,13 +1,17 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const request = require('request');
-const { nhlRosters } = require('../consts/nhl-rosters');
+// const { nhlRosters } = require('../consts/nhl-rosters');
+const { nflRosters } = require('../consts/nfl-rosters');
+
+const league = 'NFL'; // 'NHL', 'NFL'
 
 (async () => {
   const browser = await puppeteer.launch({ headless: true });
 
-  nhlRosters.forEach(async (roster) => {
+  nflRosters.forEach(async (roster) => {
     const page = await browser.newPage();
+    page.setDefaultNavigationTimeout(50 * 1000);
     await page.goto(roster.link);
 
     // Scrpae player names
@@ -34,11 +38,17 @@ const { nhlRosters } = require('../consts/nhl-rosters');
       });
     });
 
+    // Create folder if missing
+    const dir = `../images/${league}/${roster.team.split(' ').join('-')}`;
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+
     // Download player images
     playerImageInfo.forEach((player) => {
       request(player.uri).pipe(
         fs.createWriteStream(
-          `../images/NHL/${roster.team.split(' ').join('-')}/${
+          `../images/${league}/${roster.team.split(' ').join('-')}/${
             player.fileName
           }.png`,
         ),
