@@ -1,15 +1,15 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const request = require('request');
-// const { nhlRosters } = require('../consts/nhl-rosters');
-const { nflRosters } = require('../consts/nfl-rosters');
+const { nhlRosters } = require('../consts/nhl-rosters');
+// const { nflRosters } = require('../consts/nfl-rosters');
 
-const league = 'NFL'; // 'NHL', 'NFL'
+const league = 'NHL'; // 'NHL', 'NFL'
 
 (async () => {
   const browser = await puppeteer.launch({ headless: true });
 
-  nflRosters.forEach(async (roster) => {
+  nhlRosters.forEach(async (roster) => {
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(50 * 1000);
     await page.goto(roster.link);
