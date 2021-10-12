@@ -8,8 +8,9 @@ const league = 'NHL'; // 'NHL', 'NFL'
 
 (async () => {
   const browser = await puppeteer.launch({ headless: true });
-
-  nhlRosters.forEach(async (roster) => {
+  for (const roster of nhlRosters) {
+    // eslint-disable-next-line no-console
+    console.log(`Generarting: ${roster.team}`);
     const page = await browser.newPage();
     page.setDefaultNavigationTimeout(50 * 1000);
     await page.goto(roster.link);
@@ -19,7 +20,7 @@ const league = 'NHL'; // 'NHL', 'NFL'
       '.Table__TBODY .Table__TR .Table__TD div a',
       (els) => els.map((el) => el.textContent),
     );
-    const palyerNames = playerNameScrape.filter((name) => name.length > 0);
+    const playerNames = playerNameScrape.filter((name) => name.length > 0);
 
     // Scrpae player images
     const playerImages = await page.$$eval(
@@ -31,7 +32,7 @@ const league = 'NHL'; // 'NHL', 'NFL'
     const playerImageInfo = [];
     playerImages.forEach((link, index) => {
       playerImageInfo.push({
-        fileName: palyerNames[index].split(' ').join('-'),
+        fileName: playerNames[index].split(' ').join('-'),
         uri: link
           .replace('&h=80&w=110&scale=crop', '&w=350&h=254')
           .replace('&w=110&h=80&scale=crop', '&w=350&h=254'),
@@ -54,5 +55,6 @@ const league = 'NHL'; // 'NHL', 'NFL'
         ),
       );
     });
-  });
+  }
+  process.exit(0);
 })();
