@@ -4,13 +4,17 @@ Scripts to scrape images from ESPN using Puppeteer. You should always respect th
 
 ### Design
 
-##### Player Photos
+#### Player Photos
+
+To run: `node src/player-photos/ `
 
 To choose the league you wish to scrape player images from you must manually change the imported file containing all the league's team names and respective link on ESPN (available options commented out). Make sure to update any references to the imported file in the script. Additionally, change the league const to the appropriate abbreviation for the league you wish to scrape.
 
 After opening a headless browser, Puppeteer begins by navigating to each team's URL. The script will then first scrape all the player names using a unique query selector that identifies each player. Then, compile the image info by using a unique query selector that selects each player's image, captures the image url, and sets the filename as the appropriate player name. With that data captured, said data is then looped through, downloaded, and saved to the appropriate subfolder under [images](/src/images/).
 
-##### Team Logos
+#### Team Logos
+
+To run: `node src/team-logos/ `
 
 To choose the league you wish to scrape logos from you must manually change the leagueURL and league consts to the appropriate values (available options commented out).
 
