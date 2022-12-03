@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const { checkDirectory, download } = require('../util');
 
 const league = 'NHL';
-const teamsURL = 'https://www.espn.com/nhl/teams';
+const leagueURL = 'https://www.espn.com/nhl/teams';
 
 // league : teamsURL
 // MLB : https://www.espn.com/mlb/teams
@@ -14,7 +14,7 @@ const teamsURL = 'https://www.espn.com/nhl/teams';
   const browser = await puppeteer.launch({ headless: true });
 
   const page = await browser.newPage();
-  await page.goto(teamsURL);
+  await page.goto(leagueURL);
 
   // Scrape logo links
   const logoLinks = await page.$$eval(

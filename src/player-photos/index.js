@@ -1,10 +1,10 @@
 const puppeteer = require('puppeteer');
+const { checkDirectory, download } = require('../util');
 
 // const { nhlRosters } = require('../consts/nhl-rosters');
 // const { nflRosters } = require('../consts/nfl-rosters');
 // const { nbaRosters } = require('../consts/nba-rosters');
 const { mlbRosters } = require('../consts/mlb-rosters');
-const { checkDirectory, download } = require('../util');
 
 const league = 'MLB'; // 'MLB', 'NHL', 'NFL', 'NBA'
 
